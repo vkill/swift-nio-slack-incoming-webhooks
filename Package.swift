@@ -8,7 +8,7 @@ let package = Package(
         .library(name: "NIOSlackIncomingWebhooks", targets: ["NIOSlackIncomingWebhooks"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/http", from: "3.0.0"),
+        .package(url: "https://github.com/vapor/http", from: "3.1.0"),
     ],
     targets: [
         .target(name: "NIOSlackIncomingWebhooks", dependencies: ["HTTP"]),

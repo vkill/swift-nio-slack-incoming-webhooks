@@ -16,7 +16,7 @@ public struct NIOSlackIncomingWebhooks {
     public func send<T>(
         _ payload: T,
         to webhookURL: URL,
-        connectTimeout: TimeAmount = TimeAmount.seconds(10), // no support
+        connectTimeout: TimeAmount = TimeAmount.seconds(10),
         timeout: TimeAmount = TimeAmount.seconds(5)
     ) throws -> EventLoopFuture<Void> where T: SlackIncomingWebhooksPayload {
         guard let scheme = webhookURL.scheme, scheme == "https" else {
@@ -30,7 +30,7 @@ public struct NIOSlackIncomingWebhooks {
             throw NIOSlackIncomingWebhooksErrors.webhookURLInvalid
         }
 
-        return HTTPClient.connect(scheme: .https, hostname: hostname, on: eventLoopGroup) { error in
+        return HTTPClient.connect(scheme: .https, hostname: hostname, connectTimeout: connectTimeout, on: eventLoopGroup) { error in
             Swift.print("SlackIncomingWebhooks httpClient handler error happened, error: \(error)")
         }.flatMap(to: Void.self) { httpClient in
             let httpClientCloseScheduleTask = self.eventLoopGroup.eventLoop.scheduleTask(in: timeout) { [weak httpClient] in
